@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2><a th:href="@{/}">Board</a></h2>
+<hr>
+<h1 th:text="|회원 가입|" th:align="center"></h1>
+<form action="html.html" th:action th:object="${member}" method="post" th:align="center">
+    <div th:if="${#fields.hasErrors('global')}">
+        <p th:each="err : ${#fields.errors('global')}" th:text="${err}">중복 아이디 존재</p>
+    </div>
+    <div class="form-group" th:align="center">
+        <label for="name">이름</label>
+        <input type="text" id="name" th:field="*{name}">
+        <div th:errors="*{name}">not blank</div>
+    </div>
+    <div th:align="center">
+        <label for="age">나이</label>
+        <input type="text" id="age" th:field="*{age}">
+        <div th:errors="*{age}">not blank</div>
+    </div>
+    <div th:align="center">
+        <label for="loginId">아이디</label>
+        <input type="text" id="loginId" th:field="*{loginId}">
+        <div th:errors="*{loginId}">not blank</div>
+    </div>
+    <div th:align="center">
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" th:field="*{password}">
+        <div th:errors="*{password}">not blank</div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">등록</button>
+</form>
+
+</body>
+</html>

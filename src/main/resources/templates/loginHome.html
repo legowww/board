@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+</head>
+<body>
+    <h2>
+        <h2><a th:href="@{/}">Board</a></h2>
+        <div th:align="right">
+            <a th:href="@{/logout}">로그아웃 </a>
+        </div>
+    </h2>
+    <hr>
+    <div th:align="center">
+        <h2><a th:href="@{/post/index}">게시판</a></h2>
+        <h2><a th:href="@{/post/save}">글 작성</a></h2>
+    </div>
+</body>
+</html>
