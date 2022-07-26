@@ -4,21 +4,25 @@ import com.example.board.domain.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter @Setter
 @NoArgsConstructor
 public class PostIndexDto {
-    private Long id;
+    private Long postId;
     private String title;
+    private Long writerId;
     private String writerName;
-    private LocalDateTime createdDate;
+    private String createdDate;
 
     public PostIndexDto(Post p) {
-        id = p.getId();
+        postId = p.getId();
         title = p.getTitle();
-        writerName = p.getMember().getName(); // todo: fetch join apply check
-        createdDate = p.getCreateDate();
+        writerId = p.getMember().getId();   //todo: fetch join apply check
+        writerName = p.getMember().getName();
+        createdDate =  p.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd hh:mm"));
     }
 }

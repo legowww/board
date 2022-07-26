@@ -45,9 +45,8 @@ public class InitData {
             Post post = Post.createPost(member, "title", "content");
             em.persist(post);
 
-            //dirty checking
+            //using dirty checking
             post.update("updatedTitle", "updatedContent");
-
             Reply reply = Reply.createReply(member, post, "replyContent");
             em.persist(reply);
         }

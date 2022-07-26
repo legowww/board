@@ -13,21 +13,22 @@
             <th>게시글번호</th>
             <th>제목</th>
             <th>작성자</th>
-            <th>최종수정일</th>
+            <th>작성일</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="post : ${posts}">
-            <td th:text="${post.id}"></td>
+            <td th:text="${post.postId}"></td>
             <td>
-                <a th:href="@{/post/postId={path_id}(path_id=${post.id})}" th:text="${post.title}"></a>
+                <a th:href="@{/post/postId={path_id}(path_id=${post.postId})}" th:text="${post.title}"></a>
             </td>
             <td th:text="${post.writerName}"></td>
-            <td>
-                <a th:href="@{/post/update/postId={path_id}(path_id=${post.id})}" th:text="${post.createdDate}"></a>
-            </td>
+            <td th:text="${post.createdDate}"></td>
         </tr>
         </tbody>
-    </table>
+</table>
+<div th:align="left">
+    <button type="button" th:onclick="|location.href='@{/}'|">뒤로</button>
+</div>
 </body>
 </html>

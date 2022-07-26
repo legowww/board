@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2><a th:href="@{/}">Board</a></h2>
+<div th:align="right">
+    <a th:href="@{/login?redirectURI={uri}(uri=${currPageURI})}">로그인 </a>
+</div>
+<hr>
+    <div th:align="center" th:object="${post}">
+        <h1 th:text="${post.title}" readonly></h1>
+        <hr>
+        <h3 th:text="|작성자: ${post.writerName}|" readonly></h3>
+        <p>
+            <textarea id="content" th:field="${post.content}" cols="60" rows="10" readonly>
+            </textarea>
+        </p>
+        <div th:align="left">
+            <button type="button" th:onclick="|location.href='@{/post/index}'|">뒤로</button>
+        </div>
+    </div>
+    <div th:align="center">
+        <hr>
+        <table border="0" th:width="300" th:height="80">
+            <tr th:each="r : ${replies}">
+                <td th:text="${r.memberName}"></td>
+                <td th:text="${r.content}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    function replyPostCheck() {
+        var form = document.replyWriteForm;
+
+        if (form.nickname.value.length == 0 ) {
+            alert("작성자를 입력하세요");
+            return false;
+        }
+
+        if (form.password.value.length == 0 ) {
+            alert("비밀번호를 입력하세요");
+            return false;
+        }
+
+        if (form.content.value.length == 0 ) {
+            alert("내용을 입력하세요");
+            return false;
+        }
+        form.submit();
+    }
+
+    function replyDeleteCheck() {
+    }
+</script>
+
+
+<h2><a th:href="@{/}">Board</a></h2>
+<div th:align="right">
+    <a th:href="@{/logout}">로그아웃</a>
+</div>
+<hr>
+    <div th:align="center" th:object="${post}">
+        <h1 th:text="*{title}" readonly></h1>
+        <hr>
+        <h3 th:text="|작성자: *{writerName}|" readonly></h3>
+        <p>
+            <textarea id="content" th:field="*{content}" cols="60" rows="10" readonly>
+            </textarea>
+        </p>
+
+        <div th:align="left">
+            <button type="button" th:onclick="|location.href='@{/post/index}'|">뒤로</button>
+        </div>
+
+        <div th:align="right" th:if="${myPost}">
+            <button type="button" th:onclick="|location.href='@{/post/update/postId={path_id}(path_id=*{postId})}'|">수정</button>
+            <button type="button" th:onclick="|location.href='@{/post/delete/postId={path_id}(path_id=*{postId})}'|">삭제</button>
+            <!--<button type="button" th:href="@{/post/update}">삭제</button> 작동안함-->
+        </div>
+    </div>
+
+    <div th:align="center">
+        <hr>
+        <table border="0" th:width="300" th:height="80">
+            <tr th:each="r : ${replies}">
+                <td th:text="${r.memberName}"></td>
+                <td th:text="${r.content}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

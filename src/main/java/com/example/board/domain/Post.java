@@ -30,14 +30,13 @@ public class Post extends BaseTimeEntity{
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
-    @OneToMany(mappedBy = "post")
+    //todo: cascade 를 통한 제거는 mysql 에서는 불가능하다 -> 테이블 생성시 외래키 무결성 조건을 추가해야 한다.
+    //게시물 제거 시 댓글 모두 제거 -> member 제거 post 제거를 통해 reply 제거 현황을 보고 방법 결정
+    //1.orphan
+    //2.casade.REMOVE
+    @OneToMany(mappedBy = "post", orphanRemoval = true)
     private List<Reply> replies = new ArrayList<>();
 
-    //==업데이트==
-    public void update(String title, String content) {
-        this.title = title;
-        this.content = content;
-    }
 
     public static Post createPost(Member member, String title, String content) {
         Post post = new Post(title, content);
@@ -50,6 +49,11 @@ public class Post extends BaseTimeEntity{
         member.getPosts().add(this);
     }
 
+    //==업데이트==
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 
     public Post(String title, String content) {
         this.title = title;

@@ -37,11 +37,11 @@ public class Member extends BaseTimeEntity {
     private MemberStatus memberStatus;
 
     //==양방향 관계
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Post> posts = new ArrayList<>();
 
     //==양방향 관계
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Reply> replies = new ArrayList<>();
 
     @Builder

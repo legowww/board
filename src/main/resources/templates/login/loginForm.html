@@ -11,9 +11,8 @@
     <div th:if="${#fields.hasErrors('global')}">
         <p th:each="err : ${#fields.errors('global')}" th:text="${err}"></p>
     </div>
-    <!--
-        에러가 발생했을 경우, th:field 는 BindingResult 에 담긴 rejectValue 를 출력한다.
-     -->
+    <!--에러가 발생했을 경우, th:field 는 BindingResult 에 담긴 rejectValue(방금 입력값) 를 출력한다.-->
+    <!--에러가 발생했을 경우, th:errors 는 BindingResult 에 담긴 errorCode 를 토대로 에러 메세지를 출력한다.-->
     <div>
         <label for="loginId">아이디</label>
         <input type="text" id="loginId" th:field="*{loginId}">
@@ -27,5 +26,8 @@
     </div>
     <button type="submit" class="btn btn-primary">로그인</button>
 </form>
+<div th:align="left">
+    <button type="button" th:onclick="|location.href='@{/}'|">뒤로</button>
+</div>
 </body>
 </html>
