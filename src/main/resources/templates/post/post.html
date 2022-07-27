@@ -24,10 +24,13 @@
     </div>
     <div th:align="center">
         <hr>
-        <table border="0" th:width="300" th:height="80">
+        <table border="0" th:width="1000" th:height="100">
+            <tr><td th:align="left" th:text="|댓글 ${repliesSize}|"></td></tr>
             <tr th:each="r : ${replies}">
-                <td th:text="${r.memberName}"></td>
-                <td th:text="${r.content}"></td>
+                <div class="row">
+                    <div class="col-md-3"><td th:text="${r.memberName}"></td></div>
+                    <div class="col-md-9"><td th:text="${r.content}"></td></div>
+                </div>
             </tr>
         </table>
     </div>

@@ -39,7 +39,7 @@ public class PostService {
 
     //==all posts==
     public List<PostIndexDto> findAll() {
-        List<Post> posts = postRepository.findAllWithMemberByFetchJoin();
+        List<Post> posts = postRepository.findAllWithMemberUsingFetchJoin();
         List<PostIndexDto> collect = posts.stream()
                 .map(p -> new PostIndexDto(p))
                 .collect(Collectors.toList());

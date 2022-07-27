@@ -18,6 +18,7 @@ public class PostPrintDto {
     @NotBlank
     private String content;
     private Long WriterId;
+    private String writerLoginId;
     private String writerName;
 
     //find post in repository --> DTO
@@ -25,7 +26,8 @@ public class PostPrintDto {
         postId = post.getId();
         title = post.getTitle();
         content = post.getContent();
-        WriterId = post.getMember().getId();  //todo: LAZY loading check -> getId()는 이미 알고있으므로 이 때 호출 X
+        WriterId = post.getMember().getId();
+        writerLoginId = post.getMember().getLoginId();
         writerName = post.getMember().getName();
     }
 }

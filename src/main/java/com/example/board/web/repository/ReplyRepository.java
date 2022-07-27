@@ -8,12 +8,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ReplyRepository extends JpaRepository<Reply, Long> {
+    //N+1 문제 해결 쿼리
+    @Query("select r from Reply r join fetch r.member where r.post.id = :post_id order by r.createDate")
+    List<Reply> findReplyByPostIdUsingFetchJoin(@Param("post_id") Long id);
+
     //==게시글 댓글 조회 쿼리(N + 1)==
     @Query("select r from Reply r join r.post p where p.id = :post_id order by r.createDate")
     List<Reply> findReplyByPostId(@Param("post_id") Long id);
-
-    //==댓글이 달린 게시물의 id를 반환하는 쿼리==
-    @Query("select r.post.id from Reply r where r.id = :reply_id")
-    String findPostIdByReply(@Param("reply_id") Long id);
 }
 

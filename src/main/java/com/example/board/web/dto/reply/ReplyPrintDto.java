@@ -10,12 +10,14 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ReplyPrintDto {
     private Long id;
+    private String memberLoginId;
     private String memberName;
     private String content;
 
     public ReplyPrintDto(Reply reply) {
         id = reply.getId();
-        memberName = reply.getMember().getName(); //todo: fetch join 적용대상
+        memberLoginId = reply.getMember().getLoginId();
+        memberName = reply.getMember().getName();
         content = reply.getContent();
     }
 }

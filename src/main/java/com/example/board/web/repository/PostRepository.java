@@ -13,7 +13,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
         return entity-graph consists of post(N) with Member(1)
     */
     @Query("select p from Post p join fetch p.member order by p.id")
-    List<Post> findAllWithMemberByFetchJoin();
+    List<Post> findAllWithMemberUsingFetchJoin();
 
     /*
         N+1 query:

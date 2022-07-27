@@ -34,9 +34,9 @@ public class PostController {
                        HttpServletRequest request) {
         PostPrintDto post = postService.findById(id);
         List<ReplyPrintDto> replies = replyService.findPostsReplies(id);
-
         model.addAttribute("post", post);
         model.addAttribute("replies", replies);
+        model.addAttribute("repliesSize", replies.size());
 
         if (loginMember == null) {
             String requestURI = request.getRequestURI();
@@ -46,7 +46,8 @@ public class PostController {
             if (loginMember.getId() == post.getWriterId()) {
                 model.addAttribute("myPost", true);
             }
-            model.addAttribute("reply", new ReplySaveDto());
+            model.addAttribute("reply", new ReplySaveDto(loginMember.getLoginId(), loginMember.getName()));
+            model.addAttribute("currLoginId", loginMember.getLoginId());
             return "post/loginPost";
         }
     }

@@ -8,25 +8,11 @@
 <script type="text/javascript">
     function replyPostCheck() {
         var form = document.replyWriteForm;
-
-        if (form.nickname.value.length == 0 ) {
-            alert("작성자를 입력하세요");
-            return false;
-        }
-
-        if (form.password.value.length == 0 ) {
-            alert("비밀번호를 입력하세요");
-            return false;
-        }
-
         if (form.content.value.length == 0 ) {
-            alert("내용을 입력하세요");
+            alert("내용을 입력해주세요");
             return false;
         }
         form.submit();
-    }
-
-    function replyDeleteCheck() {
     }
 </script>
 
@@ -55,13 +41,36 @@
             <!--<button type="button" th:href="@{/post/update}">삭제</button> 작동안함-->
         </div>
     </div>
+<hr>
 
     <div th:align="center">
-        <hr>
-        <table border="0" th:width="300" th:height="80">
+        <p>
+        <form name="replyWriteForm" th:object="${reply}" th:action="@{/reply/postId={path_id}(path_id=${post.postId})}" method="post">
+        <input type="hidden" th:field="*{writerLoginId}">
+        <input type="hidden" th:field="*{writerName}">
+            <table>
+                <tr>
+                    <td th:text="|*{writerName}|"></td>
+                    <td>
+                        <textarea th:field="*{content}" cols="40" rows="2"></textarea>
+                    </td>
+                    <td>
+                        <input type="button" value="등록" onclick="replyPostCheck()">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        </p>
+        <table border="0" th:width="1000" th:height="100">
+            <tr><td th:align="left" th:text="|댓글 ${repliesSize}|"></td></tr>
             <tr th:each="r : ${replies}">
                 <td th:text="${r.memberName}"></td>
                 <td th:text="${r.content}"></td>
+                <td>
+                    <div th:if="${r.memberLoginId} == ${currLoginId}">
+                        <button type="button" th:onclick="|location.href='@{/post/update/postId={path_id}(path_id=*{postId})}'|">삭제</button>
+                    </div>
+                </td>
             </tr>
         </table>
     </div>
