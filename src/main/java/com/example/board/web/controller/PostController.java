@@ -1,15 +1,20 @@
-package com.example.board.web.Controller;
+package com.example.board.web.controller;
 
-import com.example.board.domain.member.Member;
-import com.example.board.web.dto.post.PostPrintDto;
+import com.example.board.domain.Member;
+import com.example.board.web.dto.post.PostDto;
 import com.example.board.web.dto.post.PostSaveDto;
 import com.example.board.web.dto.reply.ReplyPrintDto;
 import com.example.board.web.dto.reply.ReplySaveDto;
 import com.example.board.web.login.SessionName;
+import com.example.board.web.service.PaginationService;
 import com.example.board.web.service.PostService;
 import com.example.board.web.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,18 +27,38 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/post")
+@RequestMapping("/posts")
 public class PostController {
-
     private final PostService postService;
     private final ReplyService replyService;
+    private final PaginationService paginationService;
 
-    @GetMapping("postId={id}")
-    public String post(@PathVariable Long id, Model model,
+    @GetMapping
+    public String posts(Model model,
+                        @PageableDefault(size = 5, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable,
+                        @SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember) {
+        Page<PostDto> posts = postService.searchPosts(pageable);
+
+
+
+
+        List<Integer> bar = paginationService.getPaginationBar(posts.getNumber(), posts.getTotalPages());
+
+        model.addAttribute("posts", posts);
+        model.addAttribute("bar", bar);
+        if (loginMember != null) {
+            model.addAttribute("loginMember", true);
+        }
+        return "post/index";
+    }
+
+
+    @GetMapping("/{postId}")
+    public String post(@PathVariable Long postId, Model model,
                        @SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember,
                        HttpServletRequest request) {
-        PostPrintDto post = postService.findById(id);
-        List<ReplyPrintDto> replies = replyService.findPostsReplies(id);
+        PostDto post = postService.findByIdUsingReadPost(postId);
+        List<ReplyPrintDto> replies = replyService.findPostsReplies(postId);
         model.addAttribute("post", post);
         model.addAttribute("replies", replies);
         model.addAttribute("repliesSize", replies.size());
@@ -52,18 +77,12 @@ public class PostController {
         }
     }
 
-    @GetMapping("/index")
-    public String index(Model model) {
-        model.addAttribute("posts", postService.findAll());
-        return "post/index";
-    }
-
-    @GetMapping("/save")
+    @GetMapping("/new")
     public String postsCreateForm(@ModelAttribute("post") PostSaveDto postSaveDto) {
         return "post/postSaveForm";
     }
 
-    @PostMapping("/save")
+    @PostMapping("/new")
     public String postsSave(@Validated @ModelAttribute("post") PostSaveDto postSaveDto,
                             BindingResult bindingResult,
                             @SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember) {
@@ -71,31 +90,30 @@ public class PostController {
             return "post/postSaveForm";
         }
         Long writerId = loginMember.getId();
-        log.info("id=" + writerId);
         postService.save(writerId, postSaveDto);
-        return "redirect:/post/index";
+        return "redirect:/posts";
     }
 
-    @GetMapping("/update/postId={postId}")
+    @GetMapping("/{postId}/update")
     public String postUpdateForm(@PathVariable Long postId, Model model) {
-        PostPrintDto findPost = postService.findById(postId);
+        PostDto findPost = postService.findByIdUsingUpdatePost(postId);
         model.addAttribute("post", findPost);
         return "/post/postUpdateForm";
     }
 
-    @PostMapping("/update/postId={postId}")
-    public String postsUpdate(@PathVariable Long postId, @Validated @ModelAttribute("post") PostPrintDto postPrintDto, BindingResult bindingResult) {
+    @PostMapping("/{postId}/update")
+    public String postsUpdate(@PathVariable Long postId, @Validated @ModelAttribute("post") PostDto postDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            log.info("errors = " + bindingResult);
+            log.info("[postsUpdate] errors = " + bindingResult);
             return "/post/postUpdateForm";
         }
-        postService.update(postId, postPrintDto.getTitle(), postPrintDto.getContent());
-        return "redirect:/post/postId=" + postId;
+        postService.update(postId, postDto.getTitle(), postDto.getContent());
+        return "redirect:/posts/" + postId;
     }
 
-    @GetMapping("/delete/postId={postId}")
+    @GetMapping("/{postId}/delete")
     public String postDelete(@PathVariable Long postId) {
         postService.delete(postId);
-        return "redirect:/post/index";
+        return "redirect:/posts";
     }
 }

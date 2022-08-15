@@ -1,7 +1,7 @@
 package com.example.board.web.login;
 
 
-import com.example.board.domain.member.Member;
+import com.example.board.domain.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;

@@ -1,8 +1,5 @@
-package com.example.board.domain.member;
+package com.example.board.domain;
 
-import com.example.board.domain.BaseTimeEntity;
-import com.example.board.domain.Post;
-import com.example.board.domain.Reply;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,16 +18,16 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "age")
+    @Column(name = "age", nullable = false)
     private Integer age;
 
-    @Column(name = "loginId")
+    @Column(name = "loginId", nullable = false)
     private String loginId;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)

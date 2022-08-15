@@ -23,7 +23,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         log.info("[URI접근] " + requestURI);
         HttpSession session = request.getSession();
         if (!loginSessionCheck(session, SessionName.SESSION_LOGIN)) {
-            log.info("로그인 먼저 하세요.");
+            log.info("로그인화면으로 이동");
             response.sendRedirect("/login?redirectURI=" + requestURI);
             return false;
         }

@@ -1,6 +1,5 @@
 package com.example.board.domain;
 
-import com.example.board.domain.member.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,14 +15,14 @@ public class Reply extends BaseTimeEntity{
     @Column(name = "reply_id")
     private Long id;
 
-    @Column(name = "content", columnDefinition = "TEXT")
+    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -47,7 +46,7 @@ public class Reply extends BaseTimeEntity{
         member.getReplies().add(this);
     }
 
-    public Reply(String content) {
+    private Reply(String content) {
         this.content = content;
     }
 }

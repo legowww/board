@@ -1,4 +1,4 @@
-package com.example.board.domain.member;
+package com.example.board.domain;
 
 public enum MemberStatus {
     USER, ADMIN

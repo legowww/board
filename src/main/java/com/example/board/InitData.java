@@ -3,8 +3,8 @@ package com.example.board;
 
 import com.example.board.domain.Post;
 import com.example.board.domain.Reply;
-import com.example.board.domain.member.Member;
-import com.example.board.domain.member.MemberStatus;
+import com.example.board.domain.Member;
+import com.example.board.domain.MemberStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,14 +41,32 @@ public class InitData {
                     .memberStatus(MemberStatus.ADMIN)
                     .build();
             em.persist(member);
+            for (int i = 0; i < 50; ++i) {
+                Member newMember = Member.builder()
+                        .age(i + 1)
+                        .name("test" + i)
+                        .loginId("abc" + i)
+                        .password("123" + i)
+                        .memberStatus(MemberStatus.ADMIN)
+                        .build();
+                em.persist(newMember);
 
-            Post post = Post.createPost(member, "title", "content");
-            em.persist(post);
+                if (i >= 0 && i <= 12) {
+                    Post post = Post.createPost(newMember, "title" + i, "content");
+                    em.persist(post);
+                }
+            }
+
+
+
+
+
+
 
             //using dirty checking
-            post.update("updatedTitle", "updatedContent");
-            Reply reply = Reply.createReply(member, post, "replyContent");
-            em.persist(reply);
+//            post.update("updatedTitle", "updatedContent");
+//            Reply reply = Reply.createReply(member, post, "replyContent");
+//            em.persist(reply);
         }
     }
 }

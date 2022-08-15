@@ -1,7 +1,7 @@
 package com.example.board.web.login;
 
 
-import com.example.board.domain.member.Member;
+import com.example.board.domain.Member;
 import com.example.board.web.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
