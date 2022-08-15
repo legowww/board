@@ -1,0 +1,6 @@
+pre{
+    background-color: white;
+    padding:10px;
+    overflow: auto;
+    white-space: pre-wrap;
+}

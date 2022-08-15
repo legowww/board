@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <title>Title</title>
+</head>
+<body>
+    <header th:fragment="notLoginHeader" class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a th:href="@{/}" class="nav-link" aria-current="page">Home</a></li>
+            <li class="nav-item"><a th:href="@{/posts}" class="nav-link">게시판</a></li>
+            <li class="nav-item"><a th:href="@{/login}" class="nav-link">로그인</a></li>
+            <li class="nav-item"><a th:href="@{/member/new}" class="nav-link">회원가입</a></li>
+        </ul>
+    </header>
+
+    <header th:fragment="loginHeader" class="d-flex justify-content-center py-3">
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a th:href="@{/}" class="nav-link" aria-current="page">Home</a></li>
+            <li class="nav-item"><a th:href="@{/posts}" class="nav-link">게시판</a></li>
+            <li class="nav-item"><a th:href="@{/posts/new}" class="nav-link">글 쓰기</a></li>
+            <li class="nav-item"><a th:href="@{/logout}" class="nav-link">로그아웃</a></li>
+        </ul>
+    </header>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="/css/pre.css" rel="stylesheet">
+    <link href="/css/comment.css" rel="stylesheet">
+    <title>게시글</title>
+</head>
+<body>
+<header th:replace="~{template/header :: notLoginHeader}"></header>
+<main class="container" th:object="${post}">
+    <div class="py-5 text-center">
+        <h1 th:text="*{title}">제목</h1>
+    </div>
+    <aside>
+        <div class="row">
+            <div class="col-11" th:text="|작성자: *{writerName}|"></div>
+            <div class="col-1" th:text="|조회수: *{viewCount}|"></div>
+        </div>
+    </aside>
+    <hr>
+    <div class="row g-5">
+        <article class="col-md-7 col-lg-8">
+            <pre th:text="*{content}"></pre>
+        </article>
+
+        <div th:align="right" th:if="${myPost}">
+            <button type="button" class="btn btn-success" th:onclick="|location.href='@{/posts/{path_id}/update(path_id=*{postId})}'|">수정</button>
+            <button type="button" class="btn btn-danger"  th:onclick="|location.href='@{/posts/{path_id}/delete(path_id=*{postId})}'|">삭제</button>
+        </div>
+    </div>
+    <hr>
+
+    <!--댓글-->
+    <ul id="article-comments" class="row col-md-10 col-lg-8 pt-3">
+        <li th:each="r : ${replies}">
+            <div>
+                <strong th:text="${r.memberName}">이름</strong>
+                <small><time th:text="${r.createDate}">날짜</time></small>
+                <pre th:text="${r.content}">본문</pre>
+            </div>
+        </li>
+    </ul>
+</main>
+<footer th:replace="template/footer :: footer1"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+</body>
+</html>
