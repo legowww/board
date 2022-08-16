@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 
 public interface PostRepository extends JpaRepository<Post, Long> {
     /*
@@ -18,9 +20,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             value = "select p from Post p join fetch p.member",
             countQuery = "select count(p) from Post p join p.member")
     Page<Post> findAllWithMemberUsingFetchJoin(Pageable pageable);
-
-
-
-
-
 }

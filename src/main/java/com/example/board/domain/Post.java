@@ -7,7 +7,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -36,6 +38,9 @@ public class Post extends BaseTimeEntity{
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Reply> replies = new ArrayList<>();
 
+    //추천수 있는 게시물 삭제하기 위해 부모 테이블인 Post 에 cascade 추가.
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Likes> likes = new ArrayList<>();
 
     public static Post createPost(Member member, String title, String content) {
         Post post = new Post(title, content);

@@ -24,6 +24,7 @@
                     <th>작성자</th>
                     <th>작성일</th>
                     <th>조회수</th>
+                    <th>추천수</th>
                 </tr>
                 </thead>
                 <tbody id="myTable">
@@ -35,6 +36,7 @@
                     <td th:text="${post.writerName}"></td>
                     <td th:text="${post.createdDate}"></td>
                     <td th:text="${post.viewCount}"></td>
+                    <td th:text="${post.like}"></td>
                 </tr>
                 </tbody>
             </table>

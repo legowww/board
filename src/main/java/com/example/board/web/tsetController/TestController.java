@@ -1,7 +1,10 @@
 package com.example.board.web.tsetController;
 
 
+import com.example.board.domain.LikeId;
+import com.example.board.domain.Likes;
 import com.example.board.domain.Member;
+import com.example.board.web.repository.LikesRepository;
 import com.example.board.web.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +29,23 @@ import java.util.stream.Collectors;
 public class TestController {
 
     private final MemberRepository memberRepository;
+    private final LikesRepository likesRepository;
+
+
+    @GetMapping("/test/likes")
+    @ResponseBody
+    public String testLikes() {
+
+        boolean b = likesRepository.existsByPost_IdAndMember_Id(1L, 1L);
+        System.out.println("b = " + b);
+
+        Long aLong = likesRepository.countByPost_Id(1L);
+        System.out.println("i = " + aLong);
+        return String.valueOf(aLong);
+    }
+
+
+
     /**
      * http://localhost:8080/test/api/member
      * 페이징이 적용되지 않은 api 이다. 한 번에 모든 memberDto 를 조회한다.

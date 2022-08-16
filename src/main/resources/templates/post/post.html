@@ -26,10 +26,11 @@
             <pre th:text="*{content}"></pre>
         </article>
 
-        <div th:align="right" th:if="${myPost}">
-            <button type="button" class="btn btn-success" th:onclick="|location.href='@{/posts/{path_id}/update(path_id=*{postId})}'|">수정</button>
-            <button type="button" class="btn btn-danger"  th:onclick="|location.href='@{/posts/{path_id}/delete(path_id=*{postId})}'|">삭제</button>
-        </div>
+        <footer th:align="center">
+            <button type="button" class="btn btn-light"
+                    th:onclick="|location.href='@{/login(redirectURI=${currPageURI})}'|">추천</button>
+            <button type="button" class="btn btn-primary" th:text="${like}"></button>
+        </footer>
     </div>
     <hr>
 

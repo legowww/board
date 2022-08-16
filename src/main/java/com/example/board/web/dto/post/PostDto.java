@@ -25,8 +25,9 @@ public class PostDto {
     private int repliesSize;
     private String clickTitleName;
     private int viewCount;
+    private int like;
 
-    public void setClickTitleName( ) {
+    private void setClickTitleName( ) {
         if (repliesSize == 0)
             clickTitleName = title;
         else {
@@ -46,5 +47,6 @@ public class PostDto {
         repliesSize = post.getReplies().size();  //todo: batch size apply check
         viewCount = post.getViewCount();
         setClickTitleName();
+        like = post.getLikes().size(); //todo: batch size apply check
     }
 }

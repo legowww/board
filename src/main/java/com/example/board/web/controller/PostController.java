@@ -6,6 +6,7 @@ import com.example.board.web.dto.post.PostSaveDto;
 import com.example.board.web.dto.reply.ReplyPrintDto;
 import com.example.board.web.dto.reply.ReplySaveDto;
 import com.example.board.web.login.SessionName;
+import com.example.board.web.service.LikesService;
 import com.example.board.web.service.PaginationService;
 import com.example.board.web.service.PostService;
 import com.example.board.web.service.ReplyService;
@@ -32,16 +33,13 @@ public class PostController {
     private final PostService postService;
     private final ReplyService replyService;
     private final PaginationService paginationService;
+    private final LikesService likesService;
 
     @GetMapping
     public String posts(Model model,
                         @PageableDefault(size = 5, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable,
                         @SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember) {
         Page<PostDto> posts = postService.searchPosts(pageable);
-
-
-
-
         List<Integer> bar = paginationService.getPaginationBar(posts.getNumber(), posts.getTotalPages());
 
         model.addAttribute("posts", posts);
@@ -59,9 +57,12 @@ public class PostController {
                        HttpServletRequest request) {
         PostDto post = postService.findByIdUsingReadPost(postId);
         List<ReplyPrintDto> replies = replyService.findPostsReplies(postId);
+        Long like = likesService.getLikes(postId);
+
         model.addAttribute("post", post);
         model.addAttribute("replies", replies);
         model.addAttribute("repliesSize", replies.size());
+        model.addAttribute("like", like);
 
         if (loginMember == null) {
             String requestURI = request.getRequestURI();
@@ -70,12 +71,24 @@ public class PostController {
         } else {
             if (loginMember.getId() == post.getWriterId()) {
                 model.addAttribute("myPost", true);
+
             }
             model.addAttribute("reply", new ReplySaveDto(loginMember.getLoginId(), loginMember.getName()));
             model.addAttribute("currLoginId", loginMember.getLoginId());
+            model.addAttribute("postId", post.getPostId());
+            model.addAttribute("memberId", loginMember.getId());
             return "post/loginPost";
         }
     }
+
+    @GetMapping("/likes")
+    private String likes(@RequestParam(required = true) Long postId,
+                         @RequestParam(required = true) Long memberId) {
+        boolean result = likesService.clickLikes(postId, memberId);
+        return "redirect:/posts/" + postId;
+    }
+
+
 
     @GetMapping("/new")
     public String postsCreateForm(@ModelAttribute("post") PostSaveDto postSaveDto) {

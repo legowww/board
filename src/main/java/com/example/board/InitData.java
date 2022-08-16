@@ -1,10 +1,7 @@
 package com.example.board;
 
 
-import com.example.board.domain.Post;
-import com.example.board.domain.Reply;
-import com.example.board.domain.Member;
-import com.example.board.domain.MemberStatus;
+import com.example.board.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +38,17 @@ public class InitData {
                     .memberStatus(MemberStatus.ADMIN)
                     .build();
             em.persist(member);
+
+            Post p = Post.createPost(member, "likesTest", "likes?");
+
+
+
+
+            Likes like = Likes.createLike(p, member);
+            em.persist(like);
+
+
+
             for (int i = 0; i < 50; ++i) {
                 Member newMember = Member.builder()
                         .age(i + 1)
@@ -53,12 +61,11 @@ public class InitData {
 
                 if (i >= 0 && i <= 12) {
                     Post post = Post.createPost(newMember, "title" + i, "content");
+                    Likes newLike = Likes.createLike(p, newMember);
                     em.persist(post);
+                    em.persist(newLike);
                 }
             }
-
-
-
 
 
 
