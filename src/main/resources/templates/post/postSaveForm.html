@@ -20,6 +20,15 @@
             </textarea>
             <div th:errors="*{content}"></div>
         </div>
+        <div>
+            <select th:field="*{type}">
+                <option value="">==카테고리 선택==</option>
+                <option th:each="postType :${postTypes}"
+                        th:text="${postType.info}"
+                        th:value="${postType.name()}"
+                ></option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">저장</button>
     </form>
 <div th:align="left">

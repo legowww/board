@@ -1,5 +1,6 @@
 package com.example.board.domain;
 
+import com.example.board.domain.type.PostType;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,9 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -34,6 +33,10 @@ public class Post extends BaseTimeEntity{
     @Column(name = "view")
     private int viewCount;
 
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private PostType type;
+
     //todo: cascade 를 통한 제거는 mysql 에서는 불가능하다 -> 테이블 생성시 외래키 무결성 조건을 추가해야 한다.
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Reply> replies = new ArrayList<>();
@@ -42,8 +45,8 @@ public class Post extends BaseTimeEntity{
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Likes> likes = new ArrayList<>();
 
-    public static Post createPost(Member member, String title, String content) {
-        Post post = new Post(title, content);
+    public static Post createPost(Member member, String title, String content, PostType type) {
+        Post post = new Post(title, content, type);
         post.setViewCount(0);
         post.writtenBy(member);
         return post;
@@ -65,8 +68,9 @@ public class Post extends BaseTimeEntity{
         this.viewCount += 1;
     }
 
-    private Post(String title, String content) {
+    private Post(String title, String content, PostType type) {
         this.title = title;
         this.content = content;
+        this.type = type;
     }
 }

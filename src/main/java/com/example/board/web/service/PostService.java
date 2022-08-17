@@ -21,10 +21,8 @@ public class PostService {
 
     @Transactional
     public void save(Long id, PostSaveDto postSaveDto) {
-        Member writerMember = memberRepository.findById(id).
-                orElseThrow(() -> new IllegalArgumentException("no exist Id = " + id));
-
-        Post post = Post.createPost(writerMember, postSaveDto.getTitle(), postSaveDto.getContent());
+        Member writerMember = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no exist Id = " + id));
+        Post post = Post.createPost(writerMember, postSaveDto.getTitle(), postSaveDto.getContent(), postSaveDto.getType());
         postRepository.save(post);
     }
 

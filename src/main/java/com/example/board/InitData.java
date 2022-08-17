@@ -2,6 +2,7 @@ package com.example.board;
 
 
 import com.example.board.domain.*;
+import com.example.board.domain.type.PostType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,7 +40,7 @@ public class InitData {
                     .build();
             em.persist(member);
 
-            Post p = Post.createPost(member, "likesTest", "likes?");
+            Post p = Post.createPost(member, "likesTest", "likes?", PostType.STUDY);
 
 
 
@@ -60,7 +61,7 @@ public class InitData {
                 em.persist(newMember);
 
                 if (i >= 0 && i <= 12) {
-                    Post post = Post.createPost(newMember, "title" + i, "content");
+                    Post post = Post.createPost(newMember, "title" + i, "content", PostType.FASHION);
                     Likes newLike = Likes.createLike(p, newMember);
                     em.persist(post);
                     em.persist(newLike);
