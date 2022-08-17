@@ -1,6 +1,7 @@
 package com.example.board.web.controller;
 
 import com.example.board.domain.Member;
+import com.example.board.domain.type.PostType;
 import com.example.board.web.dto.post.PostDto;
 import com.example.board.web.dto.post.PostSaveDto;
 import com.example.board.web.dto.reply.ReplyPrintDto;
@@ -12,6 +13,7 @@ import com.example.board.web.service.PostService;
 import com.example.board.web.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dom4j.rule.Mode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -91,15 +93,18 @@ public class PostController {
 
 
     @GetMapping("/new")
-    public String postsCreateForm(@ModelAttribute("post") PostSaveDto postSaveDto) {
+    public String postsCreateForm(@ModelAttribute("post") PostSaveDto postSaveDto, Model model) {
+        model.addAttribute("postTypes", PostType.values());
         return "post/postSaveForm";
     }
 
     @PostMapping("/new")
     public String postsSave(@Validated @ModelAttribute("post") PostSaveDto postSaveDto,
                             BindingResult bindingResult,
+                            Model model,
                             @SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember) {
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors() || postSaveDto.getType() == null) {
+            model.addAttribute("postTypes", PostType.values());
             return "post/postSaveForm";
         }
         Long writerId = loginMember.getId();

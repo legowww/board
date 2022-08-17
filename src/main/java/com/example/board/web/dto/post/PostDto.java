@@ -1,6 +1,7 @@
 package com.example.board.web.dto.post;
 
 import com.example.board.domain.Post;
+import com.example.board.domain.type.PostType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,7 +27,7 @@ public class PostDto {
     private String clickTitleName;
     private int viewCount;
     private int like;
-
+    private PostType type;
     private void setClickTitleName( ) {
         if (repliesSize == 0)
             clickTitleName = title;
@@ -48,5 +49,6 @@ public class PostDto {
         viewCount = post.getViewCount();
         setClickTitleName();
         like = post.getLikes().size(); //todo: batch size apply check
+        type = post.getType();
     }
 }
