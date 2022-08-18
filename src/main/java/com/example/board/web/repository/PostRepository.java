@@ -20,4 +20,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
             value = "select p from Post p join fetch p.member",
             countQuery = "select count(p) from Post p join p.member")
     Page<Post> findAllWithMemberUsingFetchJoin(Pageable pageable);
+
+
+    Page<Post> findByContentContaining(String content, Pageable pageable);
+    Page<Post> findByTitleContaining(String title, Pageable pageable);
+    Page<Post> findByMember_Name(String name, Pageable pageable);
+
+
 }

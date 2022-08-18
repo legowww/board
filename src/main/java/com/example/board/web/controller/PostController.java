@@ -2,6 +2,7 @@ package com.example.board.web.controller;
 
 import com.example.board.domain.Member;
 import com.example.board.domain.type.PostType;
+import com.example.board.domain.type.SearchType;
 import com.example.board.web.dto.post.PostDto;
 import com.example.board.web.dto.post.PostSaveDto;
 import com.example.board.web.dto.reply.ReplyPrintDto;
@@ -38,12 +39,15 @@ public class PostController {
     private final LikesService likesService;
 
     @GetMapping
-    public String posts(Model model,
+    public String posts(@RequestParam(required = false) SearchType searchType,
+                        @RequestParam(required = false) String searchValue,
                         @PageableDefault(size = 5, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable,
-                        @SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember) {
-        Page<PostDto> posts = postService.searchPosts(pageable);
+                        @SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember,
+                        Model model) {
+        Page<PostDto> posts = postService.searchPosts(searchType, searchValue, pageable);
         List<Integer> bar = paginationService.getPaginationBar(posts.getNumber(), posts.getTotalPages());
 
+        model.addAttribute("searchTypes", SearchType.values());
         model.addAttribute("posts", posts);
         model.addAttribute("bar", bar);
         if (loginMember != null) {
