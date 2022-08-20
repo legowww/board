@@ -38,15 +38,19 @@ public class PostController {
     private final PaginationService paginationService;
     private final LikesService likesService;
 
+
     @GetMapping
-    public String posts(@RequestParam(required = false) SearchType searchType,
+    public String posts(@RequestParam(required = false) PostType postType,
+                        @RequestParam(required = false) SearchType searchType,
                         @RequestParam(required = false) String searchValue,
                         @PageableDefault(size = 5, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable,
                         @SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember,
                         Model model) {
-        Page<PostDto> posts = postService.searchPosts(searchType, searchValue, pageable);
+
+        Page<PostDto> posts = postService.searchPosts(postType, searchType, searchValue, pageable);
         List<Integer> bar = paginationService.getPaginationBar(posts.getNumber(), posts.getTotalPages());
 
+        model.addAttribute("postType", postType);
         model.addAttribute("searchTypes", SearchType.values());
         model.addAttribute("posts", posts);
         model.addAttribute("bar", bar);

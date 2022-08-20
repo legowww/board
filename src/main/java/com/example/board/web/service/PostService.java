@@ -2,6 +2,7 @@ package com.example.board.web.service;
 
 import com.example.board.domain.Post;
 import com.example.board.domain.Member;
+import com.example.board.domain.type.PostType;
 import com.example.board.domain.type.SearchType;
 import com.example.board.web.dto.post.PostDto;
 import com.example.board.web.dto.post.PostSaveDto;
@@ -58,19 +59,37 @@ public class PostService {
         post.update(title, content);
     }
 
-    public Page<PostDto> searchPosts(SearchType searchType, String searchValue, Pageable pageable) {
-        if (searchType == null || searchValue.isBlank()) {
-            return postRepository.findAllWithMemberUsingFetchJoin(pageable).map(PostDto::new);
+    public Page<PostDto> searchPosts(PostType postType, SearchType searchType, String searchValue, Pageable pageable) {
+        if (postType == null) {
+            if (searchType == null || searchValue.isBlank()) {
+                return postRepository.findAllWithMemberUsingFetchJoin(pageable).map(PostDto::new);
+            }
+            switch (searchType) {
+                case TITLE: {
+                    return postRepository.findByTitleContaining(searchValue, pageable).map(PostDto::new);
+                }
+                case CONTENT: {
+                    return postRepository.findByContentContaining(searchValue, pageable).map(PostDto::new);
+                }
+                case WRITER: {
+                    return postRepository.findByMember_Name(searchValue, pageable).map(PostDto::new);
+                }
+            }
         }
-        switch (searchType) {
-            case TITLE: {
-                return postRepository.findByTitleContaining(searchValue, pageable).map(PostDto::new);
+        else {
+            if (searchType == null || searchValue.isBlank()) {
+                return postRepository.findAllWithMemberUsingFetchJoin(postType, pageable).map(PostDto::new);
             }
-            case CONTENT: {
-                return postRepository.findByContentContaining(searchValue, pageable).map(PostDto::new);
-            }
-            case WRITER: {
-                return postRepository.findByMember_Name(searchValue, pageable).map(PostDto::new);
+            switch (searchType) {
+                case TITLE: {
+                    return postRepository.findByTypeAndTitleContaining(postType, searchValue, pageable).map(PostDto::new);
+                }
+                case CONTENT: {
+                    return postRepository.findByTypeAndContentContaining(postType, searchValue, pageable).map(PostDto::new);
+                }
+                case WRITER: {
+                    return postRepository.findByTypeAndMember_Name(postType, searchValue, pageable).map(PostDto::new);
+                }
             }
         }
         return null;

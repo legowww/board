@@ -14,6 +14,10 @@
     <header th:replace="~{template/header :: notLoginHeader}"></header>
 </div>
 <main class="container">
+    <div class="py-5 text-center">
+        <h1 th:text="(${postType} != null ? ${postType.info} : '전체 글')">제목</h1>
+    </div>
+    <hr>
     <div class="row">
         <div class="table-responsive">
             <table class="table table-hover">
@@ -23,8 +27,8 @@
                     <th class="col-6">제목</th>
                     <th>작성자</th>
                     <th>작성일</th>
-                    <th>조회수</th>
-                    <th>추천수</th>
+                    <th><a th:href="@{#}">조회수</a></th>
+                    <th><a th:href="@{#}">추천수</a></th>
                 </tr>
                 </thead>
                 <tbody id="myTable">
@@ -43,6 +47,7 @@
 
 
             <form id="search-form">
+                <input type="hidden" name="postType" th:value="${param.postType}">
                 <div class="row">
                     <div class="col-12">
                         <div class="row no-gutters">
@@ -74,38 +79,30 @@
                 </div>
             </form>
 
-
-
-
-
-
-
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center" th:if="${bar.size() != 0}">
                     <li class="page-item" th:if="${posts.number} != 0">
                         <a class="page-link"
-                           th:href="@{/posts(page=${posts.number - 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
-                           th:text="Previous">
+                           th:href="@{/posts(page=${posts.number - 1}, postType=${param.postType}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
+                           th:text="이전">
                         </a>
                     </li>
 
                     <li class="page-item" th:each="number : ${bar}">
                         <a class="page-link"
-                           th:href="@{/posts(page=${number}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
+                           th:href="@{/posts(page=${number}, postType=${param.postType}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
                            th:text="${number + 1}">
                         </a>
                     </li>
 
                     <li class="page-item" th:if="${posts.number} != ${posts.totalPages - 1}">
                         <a class="page-link"
-                           th:href="@{/posts(page=${posts.number + 1}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
-                           th:text="Next">
+                           th:href="@{/posts(page=${posts.number + 1}, postType=${param.postType}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
+                           th:text="다음">
                         </a>
                     </li>
                 </ul>
             </nav>
-
-
         </div>
     </div>
 </main>

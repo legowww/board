@@ -9,6 +9,13 @@
 <body>
 <header th:replace="~{template/header :: notLoginHeader}"></header>
     <main class="container">
+        <ol th:each="postType : ${postTypes}">
+            <div>
+                <h3>
+                <a th:text="${postType.info}" th:href="@{/posts(postType=${postType.name})}"></a>
+                </h3>
+            </div>
+        </ol>
     </main>
 <footer th:replace="template/footer :: footer1"></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
