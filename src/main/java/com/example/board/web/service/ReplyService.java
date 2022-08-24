@@ -37,8 +37,7 @@ public class ReplyService {
     public void createReply(Long postId, String writerLoginId, String content) {
         Post findPost = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("no exist Id = " + postId));
         Member findMember = memberRepository.findMemberByLoginId(writerLoginId);
-        Reply reply = Reply.createReply(findMember, findPost, content);
-        replyRepository.save(reply);
+        replyRepository.save(Reply.createReply(findMember, findPost, content));
     }
 
     @Transactional

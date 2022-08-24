@@ -15,7 +15,9 @@ import com.example.board.web.service.ReplyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.rule.Mode;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -46,7 +48,7 @@ public class PostController {
                         @PageableDefault(size = 5, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable,
                         @SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember,
                         Model model) {
-
+        
         Page<PostDto> posts = postService.searchPosts(postType, searchType, searchValue, pageable);
         List<Integer> bar = paginationService.getPaginationBar(posts.getNumber(), posts.getTotalPages());
 

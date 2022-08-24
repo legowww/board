@@ -27,8 +27,13 @@
                     <th class="col-6">제목</th>
                     <th>작성자</th>
                     <th>작성일</th>
-                    <th><a th:href="@{#}">조회수</a></th>
-                    <th><a th:href="@{#}">추천수</a></th>
+                    <th><a th:href="@{/posts(sort='viewCount'
+                    + (${posts.sort.getOrderFor('viewCount')} != null ? (${posts.sort.getOrderFor('viewCount').direction.name} != 'DESC' ? ',DESC' : '') : ''),
+                     postType=${param.postType}, searchType=${param.searchType}, searchValue=${param.searchValue})}">조회수</a></th>
+
+                    <th><a th:href="@{/posts(sort='likeCount'
+                    + (${posts.sort.getOrderFor('likeCount')} != null ? (${posts.sort.getOrderFor('likeCount').direction.name} != 'DESC' ? ',DESC' : '') : ''),
+                     postType=${param.postType}, searchType=${param.searchType}, searchValue=${param.searchValue})}">추천수</a></th>
                 </tr>
                 </thead>
                 <tbody id="myTable">
@@ -83,21 +88,21 @@
                 <ul class="pagination justify-content-center" th:if="${bar.size() != 0}">
                     <li class="page-item" th:if="${posts.number} != 0">
                         <a class="page-link"
-                           th:href="@{/posts(page=${posts.number - 1}, postType=${param.postType}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
+                           th:href="@{/posts(page=${posts.number - 1}, sort=${param.sort}, postType=${param.postType}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
                            th:text="이전">
                         </a>
                     </li>
 
                     <li class="page-item" th:each="number : ${bar}">
                         <a class="page-link"
-                           th:href="@{/posts(page=${number}, postType=${param.postType}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
+                           th:href="@{/posts(page=${number}, sort=${param.sort}, postType=${param.postType}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
                            th:text="${number + 1}">
                         </a>
                     </li>
 
                     <li class="page-item" th:if="${posts.number} != ${posts.totalPages - 1}">
                         <a class="page-link"
-                           th:href="@{/posts(page=${posts.number + 1}, postType=${param.postType}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
+                           th:href="@{/posts(page=${posts.number + 1}, sort=${param.sort}, postType=${param.postType}, searchType=${param.searchType}, searchValue=${param.searchValue})}"
                            th:text="다음">
                         </a>
                     </li>

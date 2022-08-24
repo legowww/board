@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/replies")
 @Slf4j
 public class ReplyController {
-
     private final ReplyService replyService;
 
     @PostMapping("/{postId}")

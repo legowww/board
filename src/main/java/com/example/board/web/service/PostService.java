@@ -29,8 +29,7 @@ public class PostService {
     }
 
     public PostDto findByIdUsingUpdatePost(Long id) {
-        Post findPost = postRepository.findById(id).
-                orElseThrow(() -> new IllegalArgumentException("no exist Id = " + id));
+        Post findPost = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no exist Id = " + id));
 
         return new PostDto(findPost);
     }
@@ -38,24 +37,22 @@ public class PostService {
 
     @Transactional
     public PostDto findByIdUsingReadPost(Long id) {
-        Post findPost = postRepository.findById(id).
-                orElseThrow(() -> new IllegalArgumentException("no exist Id = " + id));
+        Post findPost = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no exist Id = " + id));
         findPost.updateView();
+
         return new PostDto(findPost);
     }
 
 
     @Transactional
     public void delete(Long id) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
         postRepository.delete(post);
     }
 
     @Transactional
     public void update(Long id, String title, String content) {
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
         post.update(title, content);
     }
 
@@ -92,17 +89,8 @@ public class PostService {
                 }
             }
         }
+
         return null;
     }
-
-
-
-
-
-//        switch (searchType) {
-//            case TITLE: postRepository.findByTitleContaining(searchValue, pageable).map(PostDto::new);
-//            case CONTENT: postRepository.findByContentContaining(searchValue, pageable).map(PostDto::new);
-//            case WRITER: postRepository.findByMember_Name(searchValue, pageable).map(PostDto::new);
-//        };
 }
 

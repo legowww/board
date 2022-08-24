@@ -29,10 +29,6 @@ public class Post extends BaseTimeEntity{
     @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Setter
-    @Column(name = "view")
-    private int viewCount;
-
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private PostType type;
@@ -45,9 +41,14 @@ public class Post extends BaseTimeEntity{
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Likes> likes = new ArrayList<>();
 
+    @Column(name = "likes")
+    private int likeCount;
+
+    @Column(name = "view")
+    private int viewCount;
+
     public static Post createPost(Member member, String title, String content, PostType type) {
         Post post = new Post(title, content, type);
-        post.setViewCount(0);
         post.writtenBy(member);
         return post;
     }
@@ -66,6 +67,11 @@ public class Post extends BaseTimeEntity{
     //==조회수 증가==
     public void updateView() {
         this.viewCount += 1;
+    }
+
+    //==추천수 증가==
+    public void updateLikes() {
+        this.likeCount += 1;
     }
 
     private Post(String title, String content, PostType type) {
