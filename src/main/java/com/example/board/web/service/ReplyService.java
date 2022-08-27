@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @Slf4j
 public class ReplyService {
-
     private final ReplyRepository replyRepository;
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
@@ -44,5 +43,4 @@ public class ReplyService {
     public void deleteReply(Long replyId) {
         replyRepository.deleteById(replyId);
     }
-
 }

@@ -34,7 +34,6 @@ public class PostService {
         return new PostDto(findPost);
     }
 
-
     @Transactional
     public PostDto findByIdUsingReadPost(Long id) {
         Post findPost = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no exist Id = " + id));
@@ -42,7 +41,6 @@ public class PostService {
 
         return new PostDto(findPost);
     }
-
 
     @Transactional
     public void delete(Long id) {
@@ -89,7 +87,6 @@ public class PostService {
                 }
             }
         }
-
         return null;
     }
 }

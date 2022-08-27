@@ -9,12 +9,7 @@ import java.util.stream.IntStream;
 
 @Service
 public class PaginationService {
-
     private static final int BAR_SIZE = 5;
-
-
-
-
 
     public List<Integer> getPaginationBar(int currPageNumber, int totPageNumber) {
         int startNumber = Math.max(currPageNumber - (BAR_SIZE / 2), 0);
@@ -23,5 +18,4 @@ public class PaginationService {
 
         return bar;
     }
-
 }
