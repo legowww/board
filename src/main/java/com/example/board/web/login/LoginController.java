@@ -19,7 +19,6 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
-
     private final LoginService loginService;
 
     @GetMapping("/login")
@@ -32,21 +31,18 @@ public class LoginController {
                         BindingResult bindingResult, HttpServletRequest request,
                         @RequestParam(defaultValue = "/") String redirectURI) {
         if (bindingResult.hasErrors()) {
-            log.info("errors = " + bindingResult);
             return "login/loginForm";
         }
         //로그인 검증
         Member loginMember = loginService.login(loginForm.getLoginId(), loginForm.getPassword());
         if (loginMember == null) {
             bindingResult.reject("NotExistIdAndPw", null);
-            log.info("errors = " + bindingResult);
             return "login/loginForm";
         }
         //세션 생성
         HttpSession session = request.getSession();
         session.setAttribute(SessionName.SESSION_LOGIN, loginMember);
 
-        log.info("redirectURI = " + redirectURI);
         return "redirect:" + redirectURI;
     }
 

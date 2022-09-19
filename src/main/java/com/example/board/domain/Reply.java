@@ -26,27 +26,24 @@ public class Reply extends BaseTimeEntity{
     @JoinColumn(name = "member_id")
     private Member member;
 
-    /**
-     * reply on posts logic
-     */
+    private Reply(String content) {
+        this.content = content;
+    }
+
     public static Reply createReply(Member member, Post post, String content) {
         Reply reply = new Reply(content);
-        reply.WrittenBy(member);
-        reply.WrittenOn(post);
+        reply.writtenBy(member);
+        reply.writtenOn(post);
         return reply;
     }
 
-    private void WrittenOn(Post post) {
+    private void writtenOn(Post post) {
         this.post = post;
         post.getReplies().add(this);
     }
 
-    public void WrittenBy(Member member) {
+    public void writtenBy(Member member) {
         this.member = member;
         member.getReplies().add(this);
-    }
-
-    private Reply(String content) {
-        this.content = content;
     }
 }

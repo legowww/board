@@ -1,15 +1,14 @@
 package com.example.board.web.controller;
 
+import com.example.board.domain.Member;
 import com.example.board.web.dto.member.MemberSaveDto;
+import com.example.board.web.login.SessionName;
 import com.example.board.web.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/member")
@@ -37,5 +36,10 @@ public class MemberController {
             return "member/memberSaveForm";
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/myInfo")
+    public String myInfo(@SessionAttribute(name = SessionName.SESSION_LOGIN) Member loginMember) {
+        return "member/myInfo";
     }
 }

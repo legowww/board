@@ -13,13 +13,12 @@ public class HomeController {
     @GetMapping("/")
     public String home(@SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember, Model model) {
         model.addAttribute("postTypes", PostType.values());
-
         if (loginMember == null) {
             return "home";
         }
-
         String loginMemberName = loginMember.getName();
         model.addAttribute("memberName", loginMemberName);
+
         return "loginHome";
     }
 }

@@ -9,6 +9,7 @@ import com.example.board.web.dto.post.PostSaveDto;
 import com.example.board.web.repository.MemberRepository;
 import com.example.board.web.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
@@ -30,15 +32,14 @@ public class PostService {
 
     public PostDto findByIdUsingUpdatePost(Long id) {
         Post findPost = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no exist Id = " + id));
-
         return new PostDto(findPost);
     }
 
     @Transactional
     public PostDto findByIdUsingReadPost(Long id) {
         Post findPost = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("no exist Id = " + id));
+        log.info("==============1단계==============");
         findPost.updateView();
-
         return new PostDto(findPost);
     }
 

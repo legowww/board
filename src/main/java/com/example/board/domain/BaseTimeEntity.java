@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @MappedSuperclass//BaseTimeEntity 상속한 클래스들이 BaseTimeEntity 의 칼럼을 가지도록 추가
 @EntityListeners(AuditingEntityListener.class)//BaseTimeEntity 에 Auditing 기능 추가
 public abstract class BaseTimeEntity {
-
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createDate;

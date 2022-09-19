@@ -1,6 +1,5 @@
 package com.example.board.web.dto.post;
 
-import com.example.board.domain.Post;
 import com.example.board.domain.type.PostType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

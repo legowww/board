@@ -40,7 +40,6 @@ public class PostController {
     private final PaginationService paginationService;
     private final LikesService likesService;
 
-
     @GetMapping
     public String posts(@RequestParam(required = false) PostType postType,
                         @RequestParam(required = false) SearchType searchType,
@@ -68,8 +67,12 @@ public class PostController {
                        @SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember,
                        HttpServletRequest request) {
         PostDto post = postService.findByIdUsingReadPost(postId);
+        log.info("==============2단계==============");
         List<ReplyPrintDto> replies = replyService.findPostsReplies(postId);
+        log.info("==============3단계==============");
         Long like = likesService.getLikes(postId);
+        log.info("==============4단계==============");
+
 
         model.addAttribute("post", post);
         model.addAttribute("replies", replies);
@@ -77,13 +80,11 @@ public class PostController {
         model.addAttribute("like", like);
 
         if (loginMember == null) {
-            String requestURI = request.getRequestURI();
-            model.addAttribute("currPageURI", requestURI);
+            model.addAttribute("currPageURI", request.getRequestURI());
             return "post/post";
         } else {
             if (loginMember.getId() == post.getWriterId()) {
                 model.addAttribute("myPost", true);
-
             }
             model.addAttribute("reply", new ReplySaveDto(loginMember.getLoginId(), loginMember.getName()));
             model.addAttribute("currLoginId", loginMember.getLoginId());
@@ -100,8 +101,6 @@ public class PostController {
         return "redirect:/posts/" + postId;
     }
 
-
-
     @GetMapping("/new")
     public String postsCreateForm(@ModelAttribute("post") PostSaveDto postSaveDto, Model model) {
         model.addAttribute("postTypes", PostType.values());
@@ -117,8 +116,7 @@ public class PostController {
             model.addAttribute("postTypes", PostType.values());
             return "post/postSaveForm";
         }
-        Long writerId = loginMember.getId();
-        postService.save(writerId, postSaveDto);
+        postService.save(loginMember.getId(), postSaveDto);
         return "redirect:/posts";
     }
 

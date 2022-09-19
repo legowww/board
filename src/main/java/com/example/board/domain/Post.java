@@ -29,8 +29,8 @@ public class Post extends BaseTimeEntity{
     @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @Column(name = "type")
     @Enumerated(EnumType.STRING)
+    @Column(name = "type")
     private PostType type;
 
     //todo: cascade 를 통한 제거는 mysql 에서는 불가능하다 -> 테이블 생성시 외래키 무결성 조건을 추가해야 한다.
@@ -47,6 +47,12 @@ public class Post extends BaseTimeEntity{
     @Column(name = "view")
     private int viewCount;
 
+    private Post(String title, String content, PostType type) {
+        this.title = title;
+        this.content = content;
+        this.type = type;
+    }
+
     public static Post createPost(Member member, String title, String content, PostType type) {
         Post post = new Post(title, content, type);
         post.writtenBy(member);
@@ -58,7 +64,7 @@ public class Post extends BaseTimeEntity{
         member.getPosts().add(this);
     }
 
-    //==업데이트==
+    //==게시글 업데이트==
     public void update(String title, String content) {
         this.title = title;
         this.content = content;
@@ -72,11 +78,5 @@ public class Post extends BaseTimeEntity{
     //==추천수 증가==
     public void updateLikes() {
         this.likeCount += 1;
-    }
-
-    private Post(String title, String content, PostType type) {
-        this.title = title;
-        this.content = content;
-        this.type = type;
     }
 }

@@ -36,19 +36,21 @@ public class PostDto {
         }
     }
 
-    //find post in repository --> DTO
     public PostDto(Post post) {
         postId = post.getId();
         title = post.getTitle();
         content = post.getContent();
         WriterId = post.getMember().getId();
         writerLoginId = post.getMember().getLoginId();  //todo: fetch join apply check
+        log.info("==============2-1단계==============");
         writerName = post.getMember().getName();
         createdDate =  post.getCreateDate().format(DateTimeFormatter.ofPattern("yyyy.MM.dd hh:mm"));
-        repliesSize = post.getReplies().size();  //todo: batch size apply check
+        repliesSize = post.getReplies().size();  //todo: batch size apply check, 한 건 조회면 in 사용하지 않음
+        log.info("==============2-2단계==============");
         viewCount = post.getViewCount();
         setClickTitleName();
-        like = post.getLikes().size(); //todo: batch size apply check
+        like = post.getLikes().size(); //todo: batch size apply check, 한 건 조회면 in 사용하지 않음
+        log.info("==============2-3단계==============");
         type = post.getType();
     }
 }

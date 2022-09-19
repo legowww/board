@@ -12,18 +12,12 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @Component
 public class LoginCheckInterceptor implements HandlerInterceptor {
-
-    public LoginCheckInterceptor() {
-        log.info("interceptor create");
-    }
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String requestURI = request.getRequestURI();
-        log.info("[URI접근] " + requestURI);
+        log.info("[URI]" + requestURI);
         HttpSession session = request.getSession();
         if (!loginSessionCheck(session, SessionName.SESSION_LOGIN)) {
-            log.info("로그인화면으로 이동");
             response.sendRedirect("/login?redirectURI=" + requestURI);
             return false;
         }
