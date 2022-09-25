@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <title>로그인</title>
+</head>
+<body>
+<header th:replace="~{template/header :: loginHeader}"></header>
+<main class="container">
+    <h1 th:text="|마이페이지|" th:align="center"></h1>
+    <ol>
+        <li><a th:href="@{/member/myinfo}">회원 정보</a></li>
+        <li><a th:href="@{/member/myinfo}">북마크 게시글
+        <li><a th:href="@{/member/myinfo}">쪽지
+        </a></li>
+    </ol>
+    <div th:align="left">
+        <button type="button" th:onclick="|location.href='@{/}'|">뒤로</button>
+    </div>
+</main>
+<footer th:replace="template/footer :: footer1"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+</body>
+</html>
