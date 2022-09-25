@@ -2,6 +2,7 @@ package com.example.board.web.service;
 
 import com.example.board.domain.Member;
 import com.example.board.domain.MemberStatus;
+import com.example.board.web.dto.member.MemberInfoDto;
 import com.example.board.web.dto.member.MemberSaveDto;
 import com.example.board.web.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,4 +25,10 @@ public class MemberService {
         }
         return false;
     }
+
+    public MemberInfoDto findMember(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new IllegalArgumentException("no exist Id = " + memberId));
+        return new MemberInfoDto(member);
+    }
+
 }

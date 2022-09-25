@@ -68,6 +68,10 @@ public class InitData {
                 }
             }
 
+            // 1(x) 1L(o)
+            Member findMember = em.find(Member.class, 1L);
+            Post findPost = em.find(Post.class, 1L);
+            findMember.checkBookmark(findPost);
 
 
 

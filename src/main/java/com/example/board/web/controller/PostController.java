@@ -8,10 +8,7 @@ import com.example.board.web.dto.post.PostSaveDto;
 import com.example.board.web.dto.reply.ReplyPrintDto;
 import com.example.board.web.dto.reply.ReplySaveDto;
 import com.example.board.web.login.SessionName;
-import com.example.board.web.service.LikesService;
-import com.example.board.web.service.PaginationService;
-import com.example.board.web.service.PostService;
-import com.example.board.web.service.ReplyService;
+import com.example.board.web.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dom4j.rule.Mode;
@@ -39,7 +36,7 @@ public class PostController {
     private final ReplyService replyService;
     private final PaginationService paginationService;
     private final LikesService likesService;
-
+    private final BookmarkService bookmarkService;
     @GetMapping
     public String posts(@RequestParam(required = false) PostType postType,
                         @RequestParam(required = false) SearchType searchType,
@@ -73,18 +70,23 @@ public class PostController {
         Long like = likesService.getLikes(postId);
         log.info("==============4단계==============");
 
-
         model.addAttribute("post", post);
         model.addAttribute("replies", replies);
-        model.addAttribute("repliesSize", replies.size());
+        model.addAttribute( "repliesSize", replies.size());
         model.addAttribute("like", like);
 
         if (loginMember == null) {
             model.addAttribute("currPageURI", request.getRequestURI());
             return "post/post";
         } else {
+            // 내 게시글 인지 확인
             if (loginMember.getId() == post.getWriterId()) {
                 model.addAttribute("myPost", true);
+            }
+            // 북마크된 게시글인지 확인
+            boolean bookmarkFlag = bookmarkService.existBookmark(postId, loginMember.getId());
+            if (bookmarkFlag) {
+                model.addAttribute("bookmarked", true);
             }
             model.addAttribute("reply", new ReplySaveDto(loginMember.getLoginId(), loginMember.getName()));
             model.addAttribute("currLoginId", loginMember.getLoginId());
@@ -98,6 +100,13 @@ public class PostController {
     private String likes(@RequestParam(required = true) Long postId,
                          @RequestParam(required = true) Long memberId) {
         boolean result = likesService.clickLikes(postId, memberId);
+        return "redirect:/posts/" + postId;
+    }
+
+    @GetMapping("/bookmark")
+    private String bookmark(@RequestParam(required = true) Long postId,
+                         @RequestParam(required = true) Long memberId) {
+        bookmarkService.addBookmark(postId, memberId);
         return "redirect:/posts/" + postId;
     }
 

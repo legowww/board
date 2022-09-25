@@ -33,13 +33,19 @@ public class Member extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private MemberStatus memberStatus;
 
-    //==양방향 관계
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Post> posts = new ArrayList<>();
 
-    //==양방향 관계
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Reply> replies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Bookmark> bookmarks = new ArrayList<>();
+
+    public void checkBookmark(Post post) {
+        Bookmark bookmark = new Bookmark(this, post);
+        this.bookmarks.add(bookmark);
+    }
 
     @Builder
     public Member(String name, Integer age, String loginId, String password, MemberStatus memberStatus) {
