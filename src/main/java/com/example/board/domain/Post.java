@@ -37,9 +37,13 @@ public class Post extends BaseTimeEntity{
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Reply> replies = new ArrayList<>();
 
-    //추천수 있는 게시물 삭제하기 위해 부모 테이블인 Post 에 cascade 추가.
+    //추천수 있는 게시글을 삭제하기 위해 부모 테이블인 Post 에 cascade 추가.
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<Likes> likes = new ArrayList<>();
+
+    //북마크 있는 게시글을 삭제하기 위해 부모 테이블인 Post 에 cascade 추가.
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @Column(name = "likes")
     private int likeCount;
