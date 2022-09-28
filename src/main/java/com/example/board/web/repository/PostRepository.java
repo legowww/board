@@ -13,9 +13,6 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
     /*
-        N:1 fetch join query
-        return entity-graph consists of post(N) with Member(1)
-
         (fetch join + paging) *countQuery*
     */
     @Query(
@@ -24,8 +21,16 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findAllWithMemberUsingFetchJoin(Pageable pageable);
     Page<Post> findByContentContaining(String content, Pageable pageable);
     Page<Post> findByTitleContaining(String title, Pageable pageable);
+
+
     Page<Post> findByMember_Name(String name, Pageable pageable);
 
+
+    /*
+        native: select * from post p join bookmark b on p.post_id = b.post_id where b.member_id = ?;
+     */
+    @Query("select p from Post p join Bookmark b on p.id = b.post.id where b.member.id = :member_id")
+    Page<Post> findByMember_Id(@Param("member_id") Long memberId, Pageable pageable);
 
     @Query(
             value = "select p from Post p join fetch p.member where p.type = :type",

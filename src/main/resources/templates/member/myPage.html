@@ -12,14 +12,14 @@
     <h1 th:text="|마이페이지|" th:align="center"></h1>
     <ol>
         <li><a th:href="@{/member/myinfo}">회원 정보</a></li>
-<!--        <li><a th:href="@{/member/bookmarks}">북마크-->
+        <li><a th:href="@{/member/bookmarks}">북마크</a></li>
 <!--        <li><a th:href="@{/member/message}">메세지/<a></li>-->
     </ol>
     <div th:align="left">
         <button type="button" th:onclick="|location.href='@{/}'|">뒤로</button>
     </div>
+    <footer th:replace="template/footer :: footer1"></footer>
 </main>
-<footer th:replace="template/footer :: footer1"></footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 </body>
 </html>
