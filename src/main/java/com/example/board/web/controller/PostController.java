@@ -64,11 +64,8 @@ public class PostController {
                        @SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember,
                        HttpServletRequest request) {
         PostDto post = postService.findByIdUsingReadPost(postId);
-        log.info("==============2단계==============");
         List<ReplyPrintDto> replies = replyService.findPostsReplies(postId);
-        log.info("==============3단계==============");
         Long like = likesService.getLikes(postId);
-        log.info("==============4단계==============");
 
         model.addAttribute("post", post);
         model.addAttribute("replies", replies);

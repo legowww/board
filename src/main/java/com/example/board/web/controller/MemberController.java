@@ -60,9 +60,10 @@ public class MemberController {
     }
 
     @GetMapping("/bookmarks")
-    public String myBookmarks(@SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember,
+    public String myBookmarks(Model model, @SessionAttribute(name = SessionName.SESSION_LOGIN, required = false) Member loginMember,
                               @PageableDefault(size = 3, sort = "createDate", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<PostDto> posts = bookmarkService.searchBookmarks(loginMember.getId(), pageable);
-        return "loginHome";
+        model.addAttribute("posts", posts);
+        return "post/bookmarkIndex";
     }
 }

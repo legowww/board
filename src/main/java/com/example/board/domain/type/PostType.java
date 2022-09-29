@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public enum PostType {
-    STUDY("공부"), // name(info)
+    STUDY("공부"), // (STUDY = name) (공부 = info)
     MARKET("장터"),
     FASHION("패션");
     private final String info;
